@@ -1,0 +1,21 @@
+# Core web framework
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.34,<1.0
+requests>=2.32.0
+
+# Config
+pydantic>=2.10,<3.0
+pydantic-settings>=2.7,<3.0
+
+# System metrics
+psutil>=6.1
+
+# qBittorrent Web API client + Jellyfin artwork proxy
+httpx>=0.28,<1.0
+
+# Multipart/form parsing for the torrent-file-upload control endpoint
+python-multipart>=0.0.12,<1.0
+
+# Server-side artwork downscaling (optional — the artwork endpoint still works
+# without it, serving originals instead of downscaled images).
+Pillow>=11.0

@@ -1,0 +1,37 @@
+# systemd unit for the Media Server API.
+#
+# Deploy on the Dell:
+#   sudo cp media-server-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now media-server-api
+#
+# Check status / logs:
+#   systemctl status media-server-api
+#   journalctl -u media-server-api -f
+#
+# Adjust User/paths if your setup differs.
+
+[Unit]
+Description=Media Server API (FastAPI monitoring backend)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=thejus
+Group=thejus
+WorkingDirectory=/home/thejus/projects/media-server-api
+EnvironmentFile=/home/thejus/projects/media-server-api/.env
+
+# Run uvicorn from the project's virtual environment.
+ExecStart=/home/thejus/projects/media-server-api/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+
+# Light hardening (loosen if it blocks smartctl / systemctl reads).
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target

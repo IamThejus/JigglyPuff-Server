@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"openapi: %{http_code}\\\\n\" localhost:8099/openapi.json)",
+      "Bash(curl -s localhost:8099/openapi.json)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
