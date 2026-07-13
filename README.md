@@ -1,10 +1,11 @@
-# Media Server API
+# JigglyPuff-Server
 
-A **FastAPI** backend for a **Dell Debian home media server**. It serves
-system, storage, torrent, library, and service status to a mobile dashboard
-app ("JigglyPuff") over the LAN (or remotely), plus a small set of
-authenticated control actions (add a torrent, trigger `sync-movies`) and a
-WebSocket for real-time torrent progress.
+The **FastAPI** backend for **JigglyPuff**, a Dell Debian home media server
+dashboard app. This repo (**JigglyPuff-Server**) serves system, storage,
+torrent, library, and service status to the JigglyPuff mobile app over the
+LAN (or remotely), plus a small set of authenticated control actions (add a
+torrent, trigger `sync-movies`) and a WebSocket for real-time torrent
+progress.
 
 **Everything except `/api/v1/actions/*` is read-only and unauthenticated.**
 Control actions require an `X-API-Key` header (see
@@ -39,7 +40,7 @@ Code.
 ## Project structure
 
 ```text
-media-server-api/
+JigglyPuff-Server/
 ├─ app/
 │  ├─ main.py                 # app factory, CORS, router wiring, lifespan
 │  ├─ core/
@@ -412,7 +413,7 @@ straight from the folder name and always populated.
 Requires Python 3.11+.
 
 ```bash
-cd media-server-api
+cd JigglyPuff-Server
 
 python -m venv .venv
 source .venv/bin/activate
@@ -437,11 +438,17 @@ Open http://127.0.0.1:8000/docs.
 
 ## Deploying to the Dell
 
+> The systemd unit file is named `media-server-api.service` and the live
+> deploy directory on the Dell is `/home/thejus/projects/media-server-api`.
+> Those on-disk names are left as-is below so the deploy steps match the
+> currently-running service; rename them together with the unit/`WorkingDirectory`
+> if you want them to read `jigglypuff-server` too.
+
 1. **Copy the project** to the Dell:
 
    ```bash
    rsync -av --exclude '.venv' --exclude '.env' \
-     media-server-api/ thejus@dell:/home/thejus/projects/media-server-api/
+     JigglyPuff-Server/ thejus@dell:/home/thejus/projects/media-server-api/
    ```
 
 2. **Create the venv & install** on the Dell:
